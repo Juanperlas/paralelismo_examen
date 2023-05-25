@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Características de mi Computadora</title>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='estilo.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Información del Sistema</h1>
+    <div class="main_container">
+      <table>
+        <tr>
+          <th colspan="2" style="background-color: #336699">
+            Información General
+          </th>
+        </tr>
+      </table>
+      {{ tabla_general|safe }}
+    </div>
+
+    <div class="botones">
+      <button id="btn1">Procesador</button>
+      <button id="btn2">Memoria</button>
+      <button id="btn3">Discos</button>
+      <button id="btn4">GPU</button>
+      <button id="btn5">Programas</button>
+      <button id="btn6">Procesos</button>
+    </div>
+
+    <table>
+      <tr>
+        <th colspan="2" style="background-color: #336699" id="cambiar">
+          Información Adicional del Procesador
+        </th>
+      </tr>
+    </table>
+
+    <div class="container">{{ tabla_procesador|safe }}</div>
+    <div class="container">{{ tabla_ram|safe }}</div>
+    <div class="container">{{ tabla_discos|safe }}</div>
+    <div class="container">{{ tabla_gpu|safe }}</div>
+    <div class="container" id="tabla-container">{{ tabla_programas|safe }}</div>
+    <div class="container" id="tabla-container2">{{ tabla_procesos|safe }}</div>
+
+    <script>
+      window.onload = function () {
+        // obtener referencias a los botones y tablas
+        var btn1 = document.getElementById("btn1");
+        var btn2 = document.getElementById("btn2");
+        var btn3 = document.getElementById("btn3");
+        var btn4 = document.getElementById("btn4");
+        var btn5 = document.getElementById("btn5");
+        var btn6 = document.getElementById("btn6");
+        var tabla1 = document.getElementById("tabla1");
+        var tabla2 = document.getElementById("tabla2");
+        var tabla3 = document.getElementById("tabla3");
+        var tabla4 = document.getElementById("tabla4");
+        var tabla5 = document.getElementById("tabla5");
+        var tabla6 = document.getElementById("tabla6");
+
+        var cambiar = document.getElementById("cambiar");
+
+        // agregar controladores de eventos click a los botones
+        btn1.addEventListener("click", function () {
+          cambiar.innerHTML = "Información Adicional del Procesador";
+          mostrarTabla(tabla1, this);
+        });
+        btn2.addEventListener("click", function () {
+          cambiar.innerHTML = "Información Adicional de la Memoria";
+          mostrarTabla(tabla2, this);
+        });
+        btn3.addEventListener("click", function () {
+          cambiar.innerHTML = "Información Adicional de los Discos";
+          mostrarTabla(tabla3, this);
+        });
+        btn4.addEventListener("click", function () {
+          cambiar.innerHTML = "Información Adicional de la GPU";
+          mostrarTabla(tabla4, this);
+        });
+        btn5.addEventListener("click", function () {
+          cambiar.innerHTML = "Programas instalados en el sistema";
+          mostrarTabla(tabla5, this);
+        });
+        btn6.addEventListener("click", function () {
+          cambiar.innerHTML = "Procesos en ejecución y detenidos en Windows";
+          mostrarTabla(tabla6, this);
+        });
+
+        // función para mostrar u ocultar la tabla correspondiente
+        function mostrarTabla(tabla) {
+          // ocultar todas las tablas excepto la que se va a mostrar
+          var tablas = document.getElementsByClassName("adicional");
+          var cambio = document.getElementById("cambiar");
+          var tablasVisibles = 0;
+
+          for (var i = 0; i < tablas.length; i++) {
+            if (tablas[i] !== tabla) {
+              tablas[i].style.display = "none";
+            } else {
+              tablasVisibles++;
+            }
+          }
+          // mostrar la tabla si estaba oculta, ocultarla si estaba visible
+          if (tabla.style.display === "none") {
+            tabla.style.display = "table";
+            tablasVisibles++;
+          } else {
+            tabla.style.display = "none";
+            tablasVisibles--;
+          }
+
+          if (tablasVisibles === 0) {
+            cambio.style.display = "none";
+          } else {
+            cambio.style.display = "table-cell";
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
