@@ -142,44 +142,47 @@ def obtener_espec_discos():
 
 def obtener_espec_gpu():
 
-    espec_gpu = {}
+    try:
+        espec_gpu = {}
     
-    # Conectar con la biblioteca NVML
-    pynvml.nvmlInit()
+        # Conectar con la biblioteca NVML
+        pynvml.nvmlInit()
 
-    # Obtener el número de dispositivos NVIDIA en el sistema
-    device_count = pynvml.nvmlDeviceGetCount()
+        # Obtener el número de dispositivos NVIDIA en el sistema
+        device_count = pynvml.nvmlDeviceGetCount()
 
-    # Iterar a través de los dispositivos y obtener información de cada uno
-    for i in range(device_count):
-        handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-        gpu_name = pynvml.nvmlDeviceGetName(handle)
-        gpu_mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
-        gpu_utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
-        gpu_temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
-        gpu_power_usage = pynvml.nvmlDeviceGetPowerUsage(handle) / 1000.0
-        gpu_power_limit = pynvml.nvmlDeviceGetEnforcedPowerLimit(handle) / 1000.0
-        gpu_fan_speed = pynvml.nvmlDeviceGetFanSpeed(handle)
-        gpu_pci_info = pynvml.nvmlDeviceGetPciInfo(handle)
-        gpu_uuid = pynvml.nvmlDeviceGetUUID(handle)
-        gpu_compute_mode = pynvml.nvmlDeviceGetComputeMode(handle)
+        # Iterar a través de los dispositivos y obtener información de cada uno
+        for i in range(device_count):
+            handle = pynvml.nvmlDeviceGetHandleByIndex(i)
+            gpu_name = pynvml.nvmlDeviceGetName(handle)
+            gpu_mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
+            gpu_utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
+            gpu_temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
+            gpu_power_usage = pynvml.nvmlDeviceGetPowerUsage(handle) / 1000.0
+            gpu_power_limit = pynvml.nvmlDeviceGetEnforcedPowerLimit(handle) / 1000.0
+            gpu_fan_speed = pynvml.nvmlDeviceGetFanSpeed(handle)
+            gpu_pci_info = pynvml.nvmlDeviceGetPciInfo(handle)
+            gpu_uuid = pynvml.nvmlDeviceGetUUID(handle)
+            gpu_compute_mode = pynvml.nvmlDeviceGetComputeMode(handle)
 
-        # guardar la información en la lista
-        espec_gpu["Nombre del GPU"] = gpu_name
-        espec_gpu["Memoria Total de GPU"] = str(round((gpu_mem_info.total/1024**3), 2)) + " GB"
-        espec_gpu["Memoria Usada de GPU"] = str(round((gpu_mem_info.used/1024**3), 2)) + " GB"
-        espec_gpu["Memoria Libre de GPU"] = str(round((gpu_mem_info.free/1024**3), 2)) + " GB"
-        espec_gpu["Porcentaje de Uso del GPU"] = str(gpu_utilization.gpu) + " %"
-        espec_gpu["Temperatura del GPU"] = str(gpu_temp) + " °C"
-        espec_gpu["Consumo de Energía de GPU"] = str(gpu_power_usage) + " W"
-        espec_gpu["Límite de Energía de GPU"] = str(gpu_power_limit) + " W"
-        espec_gpu["Velocidad de Ventiladores"] = str(gpu_fan_speed) + " %"
-        espec_gpu["ID Del Dispositivo"] = gpu_uuid
-        espec_gpu["Modo de Computación"] = gpu_compute_mode
-        espec_gpu["Tipo de Dispositivo"] = "Dedicada" if "NVIDIA" in gpu_name else "Integrada"
-        
-    # Finalizar la conexión con la biblioteca NVML
-    pynvml.nvmlShutdown()
+            # guardar la información en la lista
+            espec_gpu["Nombre del GPU"] = gpu_name
+            espec_gpu["Memoria Total de GPU"] = str(round((gpu_mem_info.total/1024**3), 2)) + " GB"
+            espec_gpu["Memoria Usada de GPU"] = str(round((gpu_mem_info.used/1024**3), 2)) + " GB"
+            espec_gpu["Memoria Libre de GPU"] = str(round((gpu_mem_info.free/1024**3), 2)) + " GB"
+            espec_gpu["Porcentaje de Uso del GPU"] = str(gpu_utilization.gpu) + " %"
+            espec_gpu["Temperatura del GPU"] = str(gpu_temp) + " °C"
+            espec_gpu["Consumo de Energía de GPU"] = str(gpu_power_usage) + " W"
+            espec_gpu["Límite de Energía de GPU"] = str(gpu_power_limit) + " W"
+            espec_gpu["Velocidad de Ventiladores"] = str(gpu_fan_speed) + " %"
+            espec_gpu["ID Del Dispositivo"] = gpu_uuid
+            espec_gpu["Modo de Computación"] = gpu_compute_mode
+            espec_gpu["Tipo de Dispositivo"] = "Dedicada" if "NVIDIA" in gpu_name else "Integrada"
+
+        # Finalizar la conexión con la biblioteca NVML
+        pynvml.nvmlShutdown()
+    except:
+        pass    
     
     return espec_gpu
 
