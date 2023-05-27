@@ -11,3 +11,4 @@
 
 ¡LISTO! El proyecto debería iniciarse en el puerto que se indica en la consola de git. Lo más común es que se inicie en `http://127.0.0.1:5000/`. Intente acceder a esa dirección y, si no funciona, verifique en la consola de git en qué puerto y dirección se inició el proyecto.
 
+Importante: Debe de tener instalado Python en su computador.
