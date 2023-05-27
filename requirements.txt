@@ -1,0 +1,7 @@
+flask
+psutil
+py-cpuinfo
+pynvml
+pandas
+pywin32
+wmi
